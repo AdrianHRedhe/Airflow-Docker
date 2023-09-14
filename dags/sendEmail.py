@@ -2,6 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
+import pandas as pd
 
 # This function sends and email to the the recipient email
 # The sender email is hardcoded, but easily interchangable
@@ -37,7 +38,7 @@ def send_email(recipient_email, subject, message, attachment=None):
     email_message.attach(MIMEText(message, 'plain'))
 
     # If you have a csv attachment add it to the email.
-    if attachment:
+    if attachment is not None:
         csv_attachment = MIMEApplication(attachment.to_csv())
         csv_attachment.add_header('Content-Disposition','attachment; filename='+ 'weatherdata.csv')
 
