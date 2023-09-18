@@ -101,6 +101,13 @@ services:
       start_period: 5s
     restart: always
 
+  selenium:
+    container_name: remote_chromedriver
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - 4444:4444
+    restart: always
+
   redis:
     image: redis:latest
     expose:
