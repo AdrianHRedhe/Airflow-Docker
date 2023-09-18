@@ -73,3 +73,28 @@ def tableToPandas(table):
     df = pd.DataFrame({'hour':rownumbers,'degree':degrees,'rain':rains,'humidity':humidities})   
 
     return df
+
+# This function combines the above three functions.
+# It instansiates a remote driver. Scrapes the website
+# and then turn the HTML tables into a pandas dataframe
+
+def runScrapeAndReturnCSV():
+    driver = instantiateRemoteDriver()
+    
+    tables = scrapeTables(driver)
+    
+    today = tableToPandas(tables[0])
+    today['daysFromNow'] = 0
+
+    tomorrow = tableToPandas(tables[1])
+    tomorrow['daysFromNow'] = 1
+
+    # Combine the data from today and tomorrow
+    # and return the combined Dataframe.
+    df = pd.concat([today,tomorrow])
+
+    # Quit the driver so that the server is open
+    # to new connections.
+    driver.quit()
+
+    return df
