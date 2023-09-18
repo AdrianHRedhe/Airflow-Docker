@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import pandas as pd
 
 # This function instansiates the remote driver. 
 # Using the container name and the port 4444 both defined in
@@ -52,3 +53,23 @@ def scrapeTables(driver):
     tables = pane.find_elements(By.XPATH,'./div/div/table/tbody')
 
     return tables
+
+
+# This function takes a table as is written on the specific website
+# and moves it into a pandas dataframe which can be sent as a CSV file.
+
+def tableToPandas(table):
+    rows = table.find_elements(By.XPATH, './tr')
+    rownumbers,degrees,rains,humidities = [],[],[],[]
+
+    for row in rows:
+        # RowNumber
+        rownumber = row.find_elements(By.XPATH, './th/span')[0].text
+        degree = row.find_elements(By.XPATH, './td')[0].text.replace('°','')
+        rain = row.find_elements(By.XPATH, './td')[1].text
+        humidity = row.find_elements(By.XPATH, './td')[4].text
+        rownumbers.append(rownumber),degrees.append(degree),rains.append(rain),humidities.append(humidity)
+
+    df = pd.DataFrame({'hour':rownumbers,'degree':degrees,'rain':rains,'humidity':humidities})   
+
+    return df
