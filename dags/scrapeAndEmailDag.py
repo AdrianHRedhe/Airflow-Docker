@@ -4,6 +4,7 @@ import datetime as dt
 import pandas as pd
 from random import randint
 import sendEmail
+from scrapeCSV import runScrapeAndReturnCSV
 
 # Write the recipient of the email here, I suggest you test it with your own email to try it out.
 @task
@@ -27,7 +28,8 @@ def retrieveSubject():
 
 @task
 def retrieveAttachment():
-    return pd.DataFrame({'TestData':[1,2,3,4,5]})
+    attachment = runScrapeAndReturnCSV()
+    return attachment
 
 
 with DAG(
