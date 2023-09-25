@@ -37,10 +37,10 @@ def retrieveAttachment():
 
 
 with DAG(
-   "Email_Me_Info",
+   "Scrape_And_Email_Me_Info",
    default_args={'owner': 'airflow'},
    start_date=dt.datetime(2023,8,9),
-   schedule=None,
+   schedule=None, # use '0 6 * * *' to run the program at 6 am UTC everyday
    catchup=False
 ) as dag:
    subject = retrieveSubject()
