@@ -28,6 +28,8 @@ def retrieveMessage(attachment):
 def retrieveSubject():
     return "This is an email from an Airflow DAG"
 
+# This function runs the scrape that is described in the helper function scrapeCSV.py
+# and returns a CSV file with the scraped information.
 @task
 def retrieveAttachment():
     attachment = runScrapeAndReturnCSV()
