@@ -2,7 +2,6 @@ from airflow.operators.python import task
 from airflow.models import DAG
 import datetime as dt
 import pandas as pd
-from random import randint
 import sendEmail
 from scrapeCSV import runScrapeAndReturnCSV
 
@@ -17,10 +16,13 @@ def retrieveRecipient():
 def send_email_task(recipient_email, subject, message,attachment):
     sendEmail.send_email(recipient_email, subject, message,attachment)
 
-# I will add the scraping function here later on.
+# This function could be used to send an alternative message, as an example,
+# it could be used to highlight some information from the Scraped CSV
 @task
-def retrieveMessage():
-    return f"This is your random number between 1 and 10: {randint(1,10)}"
+def retrieveMessage(attachment):
+    weatherTomorrow = attachment[attachment['daysFromNow'] == 1]
+    maxTemperature = weatherTomorrow.degree.max()
+    return f"Here comes your scraped CSV file, tomorrow the highest temperature will be {maxTemperature}. \n"
 
 @task
 def retrieveSubject():
@@ -39,9 +41,9 @@ with DAG(
    schedule=None,
    catchup=False
 ) as dag:
-   message = retrieveMessage()
    subject = retrieveSubject()
    recipient_email = retrieveRecipient()
    attachment = retrieveAttachment()
+   message = retrieveMessage(attachment)
    
    send_email_task(recipient_email,subject,message,attachment)
