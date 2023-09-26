@@ -8,7 +8,8 @@ from scrapeCSV import runScrapeAndReturnCSV
 # Write the recipient of the email here, I suggest you test it with your own email to try it out.
 @task
 def retrieveRecipient():
-    return ''
+    RECIPIENT_EMAIL = ''
+    return RECIPIENT_EMAIL
 
 # This function actually writes the email. The sender is hardcoded but can be changed in 
 # sendEmail.py if you wish to send the email from another email adress.
