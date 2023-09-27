@@ -2,8 +2,8 @@ from airflow.operators.python import task
 from airflow.models import DAG
 import datetime as dt
 import pandas as pd
-import sendEmail
-from scrapeCSV import runScrapeAndReturnCSV
+from send_email import send_email
+from scrape import runScrapeAndReturnCSV
 
 # Write the recipient of the email here, I suggest you test it with your own email to try it out.
 @task
@@ -15,7 +15,7 @@ def retrieveRecipient():
 # sendEmail.py if you wish to send the email from another email adress.
 @task
 def send_email_task(recipient_email, subject, message,attachment):
-    sendEmail.send_email(recipient_email, subject, message,attachment)
+    send_email(recipient_email, subject, message,attachment)
 
 # This function could be used to send an alternative message, as an example,
 # it could be used to highlight some information from the Scraped CSV
