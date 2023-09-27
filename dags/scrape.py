@@ -7,7 +7,7 @@ import pandas as pd
 # the docker compose file, we can connect to the selenium 
 # server started by docker.
 
-def instantiateRemoteDriver():
+def instantiate_remote_driver():
     # This is the name of the container as defined in docker compose.
     remote_webdriver = 'remote_chromedriver'
     
@@ -32,7 +32,7 @@ def instantiateRemoteDriver():
 # But in this case I have a very explicit use case and will not
 # showcase that.
 
-def scrapeTables(driver):
+def scrape_tables(driver):
 
     # Go to the website
     driver.get('https://www.smhi.se/vader/prognoser/ortsprognoser/q/Stockholm/2673730')
@@ -58,7 +58,7 @@ def scrapeTables(driver):
 # This function takes a table as is written on the specific website
 # and moves it into a pandas dataframe which can be sent as a CSV file.
 
-def tableToPandas(table):
+def table_to_pandas(table):
     rows = table.find_elements(By.XPATH, './tr')
     rownumbers,degrees,rains,humidities = [],[],[],[]
 
@@ -78,15 +78,15 @@ def tableToPandas(table):
 # It instansiates a remote driver. Scrapes the website
 # and then turn the HTML tables into a pandas dataframe
 
-def runScrapeAndReturnCSV():
-    driver = instantiateRemoteDriver()
+def run_scrape_and_return_df():
+    driver = instantiate_remote_driver()
     
-    tables = scrapeTables(driver)
+    tables = scrape_tables(driver)
     
-    today = tableToPandas(tables[0])
+    today = table_to_pandas(tables[0])
     today['daysFromNow'] = 0
 
-    tomorrow = tableToPandas(tables[1])
+    tomorrow = table_to_pandas(tables[1])
     tomorrow['daysFromNow'] = 1
 
     # Combine the data from today and tomorrow

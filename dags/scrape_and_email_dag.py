@@ -3,7 +3,7 @@ from airflow.models import DAG
 import datetime as dt
 import pandas as pd
 from send_email import send_email
-from scrape import runScrapeAndReturnCSV
+from scrape import run_scrape_and_return_df
 
 # Write the recipient of the email here, I suggest you test it with your own email to try it out.
 @task
@@ -33,7 +33,7 @@ def retrieveSubject():
 # and returns a CSV file with the scraped information.
 @task
 def retrieveAttachment():
-    attachment = runScrapeAndReturnCSV()
+    attachment = run_scrape_and_return_df()
     return attachment
 
 
